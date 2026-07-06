@@ -20,6 +20,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Personel Tracking 2026"
+rootProject.name = "Personel Tracking 2026 Kodau"
 include(":app")
  

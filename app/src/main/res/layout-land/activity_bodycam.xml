@@ -9,76 +9,44 @@
     android:background="@color/background2"
     tools:context=".ui.bodycam.BodycamActivity">
 
-    <!-- STRIPES — disembunyikan, tetap ada agar binding tidak crash -->
-    <ImageView
-        android:id="@+id/imgStripes"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- HEADER -->
-    <LinearLayout
-        android:id="@+id/layoutHeader"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/secondary"
+        app:contentInsetStart="0dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- BACK BUTTON -->
-        <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/bg_circle_button"
-            android:src="@drawable/ic_arrow_back"
-            app:tint="@color/white"
-            android:contentDescription="Back"
-            android:scaleType="centerInside" />
-
-        <!-- STRIPES KIRI + TITLE + STRIPES KANAN -->
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginHorizontal="8dp">
+            android:paddingHorizontal="16dp">
 
-            <!-- STRIPES KIRI -->
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="12dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_toolbar_stripes"
-                android:scaleType="fitXY" />
+<!--            <ImageView-->
+<!--                android:layout_width="28dp"-->
+<!--                android:layout_height="28dp"-->
+<!--                android:src="@drawable/ic_logo_polri"-->
+<!--                android:contentDescription="Logo"/>-->
 
-            <!-- TITLE -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="BODYCAM"
-                android:textColor="@color/white"
-                android:textSize="14sp"
+                android:text="Bodycam"
+                android:textColor="@color/primary"
                 android:textStyle="bold"
-                android:letterSpacing="0.1"
-                android:gravity="center"
-                android:paddingHorizontal="12dp" />
+                android:textSize="14sp"
+                android:layout_marginStart="8dp"/>
 
-            <!-- STRIPES KANAN -->
-            <ImageView
+            <View
                 android:layout_width="0dp"
                 android:layout_height="12dp"
+                android:layout_marginStart="12dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_toolbar_stripes"
-                android:scaleType="fitXY" />
+                android:background="@drawable/bg_toolbar_stripes"/>
 
             <ImageButton
                 android:id="@+id/btnOverflow"
@@ -88,281 +56,342 @@
                 android:src="@drawable/ic_more_vert"
                 android:contentDescription="More options"
                 app:tint="@color/white"
-                android:scaleType="centerInside" />
+                android:scaleType="centerInside"/>
 
         </LinearLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
 
-        <!-- LIVE INDICATOR -->
-        <LinearLayout
-            android:id="@+id/liveIndicator"
+    <LinearLayout
+        android:id="@+id/liveIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_live_indicator"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="16dp">
+
+        <TextView
+            android:id="@+id/tvLive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_live_indicator"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="4dp"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:visibility="gone">
+            android:text="● LIVE"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
 
-            <TextView
-                android:id="@+id/tvLive"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="● LIVE"
-                android:textColor="@android:color/white"
-                android:textStyle="bold"
-                android:textSize="11sp" />
-
-            <TextView
-                android:id="@+id/tvTimer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" 00:00"
-                android:textColor="@android:color/white"
-                android:textSize="11sp" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 00:00"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"/>
 
     </LinearLayout>
 
-    <!-- CONTENT -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/contentRow"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="8dp"
-        app:layout_constraintTop_toBottomOf="@id/layoutHeader"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <LinearLayout
+        android:id="@+id/layoutResolution"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_resolution_selector"
+        android:padding="3dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- CAMERA CARD -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cameraCard"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="8dp"
-            app:cardBackgroundColor="@color/background"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/controlPanel"
-            app:layout_constraintDimensionRatio="W,16:9"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.5">
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <!-- CAMERA PREVIEW -->
-                <com.pedro.library.view.OpenGlView
-                    android:id="@+id/surfaceView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:visibility="visible" />
-
-                <!-- STATE IDLE -->
-                <LinearLayout
-                    android:id="@+id/layoutIdle"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:visibility="visible">
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@drawable/ic_bodycam"
-                        app:tint="@color/gray"
-                        android:alpha="0.6" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Camera is ready"
-                        android:textColor="@color/white"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:layout_marginTop="8dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tap Go Live to start streaming"
-                        android:textColor="@color/gray"
-                        android:textSize="11sp"
-                        android:layout_marginTop="4dp" />
-
-                </LinearLayout>
-
-                <!-- STATE ENDED -->
-                <LinearLayout
-                    android:id="@+id/layoutEnded"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:gravity="center"
-                    android:padding="16dp"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="✓ Stream Ended"
-                        android:textColor="@color/white"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvDuration"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Duration: 00:00"
-                        android:textColor="@color/gray"
-                        android:textSize="11sp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="16dp" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnSave"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:text="Simpan"
-                            android:textSize="11sp"
-                            android:layout_marginEnd="8dp"
-                            style="@style/Widget.App.PrimaryButton" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnDiscard"
-                            android:layout_width="wrap_content"
-                            android:layout_height="36dp"
-                            android:text="Close"
-                            android:textSize="11sp"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <!-- Overlay refresh ketika masuk mode PiP -->
-                <View
-                    android:id="@+id/pipOverlay"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#000"
-                    android:visibility="gone"/>
-
-            </FrameLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <!-- CONTROL PANEL — kanan -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/controlPanel"
+        <TextView
+            android:id="@+id/btnSd"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/background"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cameraCard"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.5">
+            android:layout_height="32dp"
+            android:text="SD · 480p"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:background="@drawable/bg_resolution_active"
+            android:clickable="true"
+            android:focusable="true"/>
 
-            <androidx.core.widget.NestedScrollView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never">
+        <TextView
+            android:id="@+id/btnHd"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:text="HD · 720p"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/gray"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true"/>
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cameraCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/background"
+        app:layout_constraintTop_toBottomOf="@id/layoutResolution"
+        app:layout_constraintBottom_toTopOf="@id/controlPanel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintDimensionRatio="H,16:9"
+        app:layout_constraintVertical_bias="0.5">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- GANTI TextureView → OpenGlView -->
+            <com.pedro.library.view.OpenGlView
+                android:id="@+id/surfaceView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+
+            <LinearLayout
+                android:id="@+id/layoutIdle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="visible">
+
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_bodycam"
+                    app:tint="@color/gray"
+                    android:alpha="0.6"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Camera is ready"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="12dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap Go Live to start streaming"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp"
+                    android:layout_marginTop="4dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutEnded"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="24dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="✓ Stream Ended"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvDuration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Duration: 00:00"
+                    android:textColor="@color/gray"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="24dp"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="10dp"
-                    android:paddingVertical="10dp">
+                    android:orientation="horizontal">
 
-                    <ImageButton
-                        android:id="@+id/btnMic"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/bg_circle_button"
-                        android:src="@drawable/ic_mic"
-                        android:contentDescription="Toggle Microphone"
-                        android:scaleType="centerInside"
-                        app:tint="@color/white" />
-
-                    <ImageButton
-                        android:id="@+id/btnVideo"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/bg_circle_button"
-                        android:src="@drawable/ic_cam"
-                        android:contentDescription="Toggle Camera"
-                        android:scaleType="centerInside"
-                        app:tint="@color/white" />
-
-                    <ImageButton
-                        android:id="@+id/btnSwitchCamera"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/bg_circle_button"
-                        android:src="@drawable/ic_switch_camera"
-                        android:contentDescription="Switch Camera"
-                        android:scaleType="centerInside"
-                        app:tint="@color/white" />
-
-                    <LinearLayout
-                        android:id="@+id/btnGoLive"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSave"
                         android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:orientation="horizontal"
-                        android:gravity="center"
-                        android:paddingHorizontal="12dp"
-                        android:background="@drawable/bg_circle_live"
-                        android:clickable="true"
-                        android:focusable="true">
+                        android:layout_height="40dp"
+                        android:text="Simpan"
+                        android:textSize="12sp"
+                        android:layout_marginEnd="8dp"
+                        style="@style/Widget.App.PrimaryButton"/>
 
-                        <ImageView
-                            android:id="@+id/imgLive"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:src="@drawable/ic_live"
-                            android:layout_marginEnd="5dp"
-                            app:tint="@color/white" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDiscard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:text="Close"
+                        android:textSize="12sp"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
-                        <TextView
-                            android:id="@+id/tvLiveText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Go Live"
-                            android:textStyle="bold"
-                            android:textColor="@color/white"
-                            android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
 
-                    </LinearLayout>
+            <!-- Overlay refresh ketika masuk mode PiP -->
+            <View
+                android:id="@+id/pipOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#000"
+                android:visibility="gone"/>
+
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imgChart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/img_chart"
+        android:scaleType="fitXY"
+        android:alpha="0.4"
+        app:layout_constraintTop_toBottomOf="@id/cameraCard"
+        app:layout_constraintBottom_toTopOf="@id/controlPanel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="60dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/controlPanel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="14dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/btnMic"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/bg_circle_button"
+                    android:src="@drawable/ic_mic"
+                    app:tint="@color/white"
+                    android:contentDescription="Toggle Microphone"
+                    android:scaleType="centerInside"
+                    android:padding="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mic"
+                    android:textColor="@color/gray"
+                    android:textSize="10sp"
+                    android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.4"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:id="@+id/btnGoLive"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_circle_live"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/imgLive"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_live"
+                        app:tint="@color/white"
+                        android:scaleType="centerInside"/>
 
                 </LinearLayout>
 
-            </androidx.core.widget.NestedScrollView>
+                <TextView
+                    android:id="@+id/tvLiveText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Go Live"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    android:layout_marginTop="5dp"/>
 
-        </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/btnVideo"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/bg_circle_button"
+                    android:src="@drawable/ic_cam"
+                    app:tint="@color/white"
+                    android:contentDescription="Toggle Camera"
+                    android:scaleType="centerInside"
+                    android:padding="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kamera"
+                    android:textColor="@color/gray"
+                    android:textSize="10sp"
+                    android:layout_marginTop="5dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.personeltracking2026kodamjayav2"
+    namespace = "com.example.personeltracking2026kodau"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.personeltracking2026kodamjayav2"
+        applicationId = "com.example.personeltracking2026kodau"
         minSdk = 24
         targetSdk = 36
 
@@ -72,8 +72,9 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
 
     // NETWORK
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     // MAP
@@ -90,11 +91,6 @@ dependencies {
 
     // MQTT
     implementation("com.hivemq:hivemq-mqtt-client:1.3.3")
-
-    // AUTO UPDATE
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     // --- Netty BOM: kunci versi semua modul Netty biar konsisten ---
     implementation(platform("io.netty:netty-bom:4.1.111.Final"))
