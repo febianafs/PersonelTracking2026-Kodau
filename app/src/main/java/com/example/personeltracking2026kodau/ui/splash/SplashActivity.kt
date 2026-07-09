@@ -21,6 +21,7 @@ import com.example.personeltracking2026kodau.ui.main.MainActivity
 import com.example.personeltracking2026kodau.ui.personel.PersonelActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import android.provider.Settings
 import com.example.personeltracking2026kodau.core.navigation.LastScreen
 import androidx.appcompat.app.AlertDialog
@@ -60,7 +61,7 @@ class SplashActivity : AppCompatActivity() {
             "ver ${BuildConfig.VERSION_NAME}"
 
         lifecycleScope.launch {
-            val minDelay = launch { delay(2000) }
+            val minDelay = launch { delay(500) }
 
             // Start service setelah Activity benar-benar visible
             // delay singkat memastikan Activity sudah resumed
@@ -71,7 +72,9 @@ class SplashActivity : AppCompatActivity() {
                 MqttLocationService.startService(this@SplashActivity)
             }
 
-            val hasUpdate = checkForUpdate()
+            val hasUpdate = withTimeoutOrNull(3_000) {
+                checkForUpdate()
+            } ?: false
             minDelay.join()
             if (!hasUpdate) {
                 continueToApp()
@@ -171,7 +174,9 @@ class SplashActivity : AppCompatActivity() {
     private fun continueToApp() {
         lifecycleScope.launch {
             val destination = if (sessionManager.isLoggedIn()) {
-                validateToken()
+                withTimeoutOrNull(3_000) {
+                    validateToken()
+                } ?: getDestinationFromSession()
             } else {
                 LoginActivity::class.java
             }
