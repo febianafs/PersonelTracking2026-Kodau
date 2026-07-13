@@ -43,6 +43,11 @@ class BluetoothActivity : BaseActivity() {
     private lateinit var layoutScanning: LinearLayout
     private lateinit var layoutConnectedInfo: LinearLayout
     private lateinit var layoutDeviceList: LinearLayout
+    private lateinit var cardLockedDevice: View
+    private lateinit var tvLockedName: TextView
+    private lateinit var tvLockedMac: TextView
+    private lateinit var tvLockedStatus: TextView
+    private lateinit var btnForgetDevice: Button
     private lateinit var tvDeviceCount: TextView
     private lateinit var tvScanStatus: TextView
     private lateinit var bluetoothScanView: BluetoothScanView
@@ -139,6 +144,11 @@ class BluetoothActivity : BaseActivity() {
         layoutScanning      = findViewById(R.id.layoutScanning)
         layoutConnectedInfo = findViewById(R.id.layoutConnectedInfo)
         layoutDeviceList    = findViewById(R.id.layoutDeviceList)
+        cardLockedDevice    = findViewById(R.id.cardLockedDevice)
+        tvLockedName        = findViewById(R.id.tvLockedName)
+        tvLockedMac         = findViewById(R.id.tvLockedMac)
+        tvLockedStatus      = findViewById(R.id.tvLockedStatus)
+        btnForgetDevice     = findViewById(R.id.btnForgetDevice)
         tvDeviceCount       = findViewById(R.id.tvDeviceCount)
         tvScanStatus        = findViewById(R.id.tvScanStatus)
         bluetoothScanView   = findViewById(R.id.bluetoothScanView)
@@ -154,7 +164,8 @@ class BluetoothActivity : BaseActivity() {
             onConnect    = { device -> connectToDevice(device) },
             onDisconnect = { _ ->
                 if (hasPermission()) {
-                    bleService?.disconnect()
+                    bleService?.forgetLockedDevice()
+                    Toast.makeText(this, "Heart rate device disconnected", Toast.LENGTH_SHORT).show()
                 } else {
                     requestPermissions()
                 }
@@ -180,6 +191,7 @@ class BluetoothActivity : BaseActivity() {
     private fun observeService() {
         lifecycleScope.launch {
             BluetoothLeService.connectionState.collect { state ->
+                updateLockedDeviceCard(BluetoothLeService.lockedDevice.value)
                 when (state) {
                     BluetoothLeService.ConnectionState.CONNECTED -> {
                         val device = BluetoothLeService.connectedDevice.value
@@ -197,6 +209,14 @@ class BluetoothActivity : BaseActivity() {
                         updateDeviceList()
                     }
                 }
+            }
+        }
+
+        lifecycleScope.launch {
+            BluetoothLeService.lockedDevice.collect { device ->
+                updateLockedDeviceCard(device)
+                updateDeviceStatesFromService()
+                updateDeviceList()
             }
         }
 
@@ -223,6 +243,7 @@ class BluetoothActivity : BaseActivity() {
         switchBluetooth.isChecked = isBluetoothOn
         setupSwitchListener()
         updateToggleUI(isBluetoothOn)
+        updateLockedDeviceCard(BluetoothLeService.lockedDevice.value)
 
         when {
             !isBluetoothOn -> showOffState()
@@ -267,6 +288,11 @@ class BluetoothActivity : BaseActivity() {
                 requestPermissions()
             }
         }
+        btnForgetDevice.setOnClickListener {
+            bleService?.forgetLockedDevice()
+            updateLockedDeviceCard(null)
+            Toast.makeText(this, "Locked heart rate device removed", Toast.LENGTH_SHORT).show()
+        }
         setupSwitchListener()
     }
 
@@ -286,9 +312,10 @@ class BluetoothActivity : BaseActivity() {
                 enableBluetoothLauncher.launch(enableBtIntent)
             } else {
                 // Putuskan koneksi BLE
-                bleService?.disconnect()
+                bleService?.forgetLockedDevice()
                 stopScan()
                 deviceList.clear()
+                updateLockedDeviceCard(null)
                 showOffState()
                 updateToggleUI(false)
                 Toast.makeText(
@@ -367,6 +394,22 @@ class BluetoothActivity : BaseActivity() {
         }
         tvHeartStatus.text = statusText
         tvHeartStatus.setTextColor(ContextCompat.getColor(this, colorRes))
+    }
+
+    private fun updateLockedDeviceCard(device: BluetoothDeviceModel?) {
+        if (device == null) {
+            cardLockedDevice.visibility = View.GONE
+            return
+        }
+
+        cardLockedDevice.visibility = View.VISIBLE
+        tvLockedName.text = device.name.ifBlank { "Heart Rate Device" }
+        tvLockedMac.text = device.address
+        tvLockedStatus.text = when (BluetoothLeService.connectionState.value) {
+            BluetoothLeService.ConnectionState.CONNECTED -> "Connected"
+            BluetoothLeService.ConnectionState.CONNECTING -> "Reconnecting"
+            BluetoothLeService.ConnectionState.DISCONNECTED -> "Locked"
+        }
     }
 
     private fun updateDeviceList() {
