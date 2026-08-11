@@ -1,7 +1,7 @@
 package com.example.personeltracking2026kodau.utils
 
 object AvatarUrlResolver {
-    private const val IMAGE_BASE_URL = "https://kodauemws.com/images/"
+    private const val IMAGE_BASE_URL = "https://cms.kodauemws.com/images/"
 
     fun resolve(path: String?): String? {
         val value = path?.trim()?.takeIf { it.isNotEmpty() } ?: return null
