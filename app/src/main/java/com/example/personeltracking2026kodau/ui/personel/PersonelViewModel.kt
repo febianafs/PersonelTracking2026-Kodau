@@ -270,8 +270,7 @@ class PersonelViewModel(
                         .ifBlank { data.rank?.name ?: "" }
                         .ifBlank { sessionManager.getRank() }
 
-                    val unit = satuan
-                        .ifBlank { data.getClassification("Unit") }
+                    val unit = data.getClassification("Unit")
                         .ifBlank { data.unit?.name ?: "" }
                         .ifBlank { sessionManager.getUnit() }
 

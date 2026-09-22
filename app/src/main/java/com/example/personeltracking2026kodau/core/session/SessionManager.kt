@@ -181,8 +181,7 @@ class SessionManager(context: Context) {
         prefs.getString(KEY_TEAM, "") ?: ""
 
     fun getUnit(): String =
-        (prefs.getString(KEY_UNIT, "") ?: "")
-            .ifBlank { getSatuan() }
+        prefs.getString(KEY_UNIT, "") ?: ""
 
     fun getRank(): String =
         prefs.getString(KEY_RANK, "") ?: ""

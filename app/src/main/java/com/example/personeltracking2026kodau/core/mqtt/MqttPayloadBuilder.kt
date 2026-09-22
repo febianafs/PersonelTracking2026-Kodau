@@ -58,7 +58,7 @@ object MqttPayloadBuilder {
             divisi     = session.getDivisi(),
             brigade    = session.getBrigade(),
             team       = session.getTeam(),
-            unit       = session.getSatuan().ifBlank { session.getUnit() },
+            unit       = session.getUnit(),
             rank       = session.getRank(),
             avatarUrl  = AvatarUrlResolver.resolve(session.getAvatarUrl()).orEmpty()
         )
